@@ -1,0 +1,17 @@
+.shish_sep {
+    width: 100px;
+    height: 100px;
+    background-image: url('shish_wizard.jpeg');
+    background-size: cover;     /* scale image to fill */
+    background-position: center; /* center the image */
+    background-repeat: no-repeat; /* don't repeat image */
+    margin: 30px auto;
+}
+
+ul {
+    list-style-type: square; /* or square, disc, none, etc. */
+  }
+
+.underlined {
+    text-decoration: underline;
+}
