@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../real"
+		},
+		{
+			"path": "../toungetied_journal"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "tounge_tied_dakota"
+	}
+}

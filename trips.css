@@ -1,0 +1,29 @@
+body {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+  }
+  
+  .random-img {
+    position: absolute;
+    width: 100px;
+    height: auto;
+    object-fit: cover;
+    transition: all 0.5s ease;
+  }
+  
+  #upload {
+    position: fixed;
+    top: 75px;
+    left: 10px;
+    z-index: 10;
+  }
+  #img_container {
+    position: relative;
+    width: 100vw;      /* or any fixed size you want */
+    height: 50vh;      /* for example, top half of the screen */
+    overflow: hidden;
+    border: 2px dashed #ccc;
+  }
+  
