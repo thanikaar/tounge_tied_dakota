@@ -12,19 +12,6 @@ uploadInput.addEventListener('change', function(event) {
       img.src = e.target.result;
       img.className = 'random-img';
 
-      /* Random position within viewport
-      const maxWidth = window.innerWidth - 150;
-      const maxHeight = window.innerHeight/3 - 150;
-
-      const randomLeft = Math.random() * maxWidth;
-      const randomTop = Math.random() * maxHeight;
-      const randomRotation = Math.random() * 360 - 180; // -180 to 180 deg
-
-      img.style.left = `${randomLeft}px`;
-      img.style.top = `${randomTop}px`;
-      img.style.transform = `rotate(${randomRotation}deg)`;
-
-      document.body.appendChild(img);*/
       img.onload = function() {
         const containerRect = container.getBoundingClientRect();
         const imgWidth = img.width;
@@ -48,3 +35,6 @@ uploadInput.addEventListener('change', function(event) {
     reader.readAsDataURL(file);
   });
 });
+
+
+console.log('rgheorih');

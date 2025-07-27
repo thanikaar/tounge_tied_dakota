@@ -1,0 +1,14 @@
+#img_container {
+    background-color: aquamarine;
+}
+
+textarea, input[type="text"] {
+    width: 99%;
+    padding: 0.5em;
+    background-color: rgba(255,255,255,0.6);
+    font-size: 1em;
+    line-height: 2;
+    margin-bottom: 1em;
+    font-family: "Courier New", Courier, monospace;;
+  }
+  
