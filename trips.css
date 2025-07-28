@@ -19,9 +19,14 @@ body {
     left: 10px;
     z-index: 10;
   }
+
+  .entry {
+    background-color: beige;
+    border: 2px pink;
+  }
   #img_container {
     position: relative;
-    width: 100vw;      /* or any fixed size you want */
+    width: 50vw;      /* or any fixed size you want */
     height: 50vh;      /* for example, top half of the screen */
     overflow: hidden;
     border: 2px dashed #ccc;

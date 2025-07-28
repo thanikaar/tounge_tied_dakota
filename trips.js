@@ -11,6 +11,7 @@ uploadInput.addEventListener('change', function(event) {
       const img = document.createElement('img');
       img.src = e.target.result;
       img.className = 'random-img';
+      container.appendChild(img); // <-- append to the parent, not body
 
       img.onload = function() {
         const containerRect = container.getBoundingClientRect();
@@ -28,7 +29,6 @@ uploadInput.addEventListener('change', function(event) {
         img.style.top = `${randomTop}px`;
         img.style.transform = `rotate(${randomRotation}deg)`;
 
-        container.appendChild(img); // <-- append to the parent, not body
       };
     };
 
