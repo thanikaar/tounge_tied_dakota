@@ -7,11 +7,20 @@
 </head>
 <body>
     <h1>Trips i've been on and cherished :3</h1>
-    <input id="upload" type="file" multiple accept="image/*">
-    <br><br>
-    <div class="entry">
-      <div id="img_container"></div>
+    <div class="entry_container">
+      <div class="left">
+        <input id="upload" type="file" multiple accept="image/*">
+        <div id="img_container"></div>
+      </div>
+      
+      <div class="right">
+        <input type="text" id="title" placeholder="Location/Title"  />
+        <textarea id="entry" rows="8" placeholder="..."></textarea> 
+      </div>
     </div>
+    <br><br><br><br><br>
+    <button onclick="saveEntry()">Save Entry</button>
+    
     <script src="trips.js"></script>
 </body>
 </html>
