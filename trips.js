@@ -37,4 +37,41 @@ uploadInput.addEventListener('change', function(event) {
 });
 
 
-console.log('rgheorih');
+const entryBox = document.getElementById('entry');
+const titleBox = document.getElementById('title');
+const entriesSection = document.getElementById('entries');
+
+
+function saveEntry() {
+  const content = entryBox.value.trim();
+  const title = titleBox.value.trim();
+  if (!content) return;
+
+  const entry = {
+    title,
+    content,
+    date: new Date().toLocaleString()
+  };
+
+  let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]'); //reads old saved json entries as arrays
+  entries.unshift(entry); //pushes the most recent entry to the top
+  localStorage.setItem('journalEntries', JSON.stringify(entries)); //converts new entry into json
+
+  entryBox.value = '';
+  titleBox.value = '';
+  loadEntries();
+}
+
+function loadEntries() {
+  entriesSection.innerHTML = ''; //clears whats currently displayed in the html
+  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]'); //loads the saved json entriesand converts it into string
+  entries.forEach(entry => {
+    const div = document.createElement('div');
+    div.className = 'entry';
+    div.innerHTML = `<strong>${entry.title || 'Untitled'}</strong><br><small>${entry.date}</small><br><br>${entry.content}`;
+    entriesSection.appendChild(div);
+  });
+}
+
+// Load entries on page load
+window.onload = loadEntries;
