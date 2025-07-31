@@ -9,7 +9,10 @@
     <h1>Trips i've been on and cherished >:3</h1>
     <div class="entry_container">
       <div class="left">
-        <input id="upload" type="file" multiple accept="image/*">
+        <form action="http://localhost:3000/upload" method="POST" enctype="multipart/form-data">
+          <input id="upload" type="file" name="image" multiple accept="image/*" required>
+          <button type="submit">Upload</button>
+        </form>  
         <div id="img_container"></div>
       </div>
       
@@ -25,5 +28,6 @@
       <!-- Past journal entries will be shown here -->
     </section>
     <script src="trips.js"></script>
+    <script src="server.js"></script>
 </body>
 </html>
