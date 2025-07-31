@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname));
   }
 });
 
@@ -21,8 +21,14 @@ if (!fs.existsSync('./uploads')) {
 
 app.use(express.static('.')); // serve your HTML file
 
-app.post('/upload', upload.single('image'), (req, res) => {
-  res.send('Image uploaded successfully!');
+// Change from upload.single('image') to upload.array('image')
+app.post('/upload', upload.array('image'), (req, res) => {
+  console.log('Files uploaded:', req.files.length);
+  res.json({ 
+    success: true, 
+    message: `${req.files.length} image(s) uploaded successfully!`,
+    files: req.files.map(file => file.filename)
+  });
 });
 
 app.listen(3000, () => {
