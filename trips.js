@@ -11,12 +11,12 @@ uploadInput.addEventListener('change', function(event) {
       const img = document.createElement('img');
       img.src = e.target.result;
       img.className = 'random-img';
-      container.appendChild(img); // <-- append to the parent, not body
+      container.appendChild(img);
 
       img.onload = function() {
         const containerRect = container.getBoundingClientRect();
-        const imgWidth = img.width;
-        const imgHeight = img.height;
+        const imgWidth = img.offsetWidth;
+        const imgHeight = img.offsetHeight;
 
         const maxLeft = container.clientWidth - imgWidth;
         const maxTop = container.clientHeight - imgHeight;
@@ -28,7 +28,6 @@ uploadInput.addEventListener('change', function(event) {
         img.style.left = `${randomLeft}px`;
         img.style.top = `${randomTop}px`;
         img.style.transform = `rotate(${randomRotation}deg)`;
-
       };
     };
 
@@ -36,41 +35,87 @@ uploadInput.addEventListener('change', function(event) {
   });
 });
 
-
 const entryBox = document.getElementById('entry');
 const titleBox = document.getElementById('title');
 const entriesSection = document.getElementById('entries');
 
+// Function to capture and save the image container
+async function captureImageContainer() {
+  try {
+    // Import html2canvas dynamically
+    const html2canvas = await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js'); //imports html2canvas API
+    
+    const canvas = await html2canvas.default(container, {
+      allowTaint: true, //allows images from different sources
+      useCORS: true, //allows images with different properties
+      backgroundColor: '#ffffff'
+    });
+    
+    return canvas.toDataURL('image/png'); //converts the uploaded picture into 64bit text something but (i think) specifies the text to be rendered as an image
+  } catch (error) {
+    console.error('Error capturing container:', error);
+    return null;
+  }
+}
 
-function saveEntry() {
+// Enhanced save function that includes the image container
+async function saveEntry() {
   const content = entryBox.value.trim();
   const title = titleBox.value.trim();
   if (!content) return;
 
+  // Capture the image container
+  const containerImage = await captureImageContainer();
+
   const entry = {
     title,
     content,
-    date: new Date().toLocaleString()
+    date: new Date().toLocaleString(),
+    containerImage: containerImage // Save the captured image
   };
 
-  let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]'); //reads old saved json entries as arrays
-  entries.unshift(entry); //pushes the most recent entry to the top
-  localStorage.setItem('journalEntries', JSON.stringify(entries)); //converts new entry into json
+  let entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+  entries.unshift(entry);
+  localStorage.setItem('journalEntries', JSON.stringify(entries));
 
   entryBox.value = '';
   titleBox.value = '';
+  container.innerHTML = ''; // Clear the container after saving
   loadEntries();
 }
 
+// Enhanced load function that displays saved container images
 function loadEntries() {
-  entriesSection.innerHTML = ''; //clears whats currently displayed in the html
-  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]'); //loads the saved json entriesand converts it into string
+  entriesSection.innerHTML = '';
+  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
   entries.forEach(entry => {
     const div = document.createElement('div');
     div.className = 'entry';
-    div.innerHTML = `<strong>${entry.title || 'Untitled'}</strong><br><small>${entry.date}</small><br><br>${entry.content}`;
+    
+    let imageHtml = '';
+    if (entry.containerImage) {
+      imageHtml = `<img src="${entry.containerImage}" alt="Saved image layout" style="max-width: 300px; height: auto; margin: 10px 0; border: 1px solid #ccc;">`;
+    }
+    
+    div.innerHTML = `
+      <strong>${entry.title || 'Untitled'}</strong><br>
+      <small>${entry.date}</small><br><br>
+      ${imageHtml}
+      ${entry.content}
+    `;
     entriesSection.appendChild(div);
   });
+}
+
+// Function to download the container as an image file
+async function downloadContainer() {
+  const containerImage = await captureImageContainer();
+  if (containerImage) {
+    const link = document.createElement('a');
+    link.download = `travel-layout-${Date.now()}.png`;
+    link.href = containerImage;
+    link.click();
+  }
 }
 
 // Load entries on page load
